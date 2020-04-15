@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WolfSheepGame;
 
 namespace WolfSheepGameLP1
 {
@@ -12,14 +13,14 @@ namespace WolfSheepGameLP1
 
 		public bool Playable { get; private set; }
 
-		public BoardSquare(int columnIndex, int rowIndex)
+		public void Square(int columnIndex, int rowIndex)
         {
 			Pos = new Coord(columnIndex, rowIndex);
 
 			IsPlayable = rowIndex % 2 != 0 && columnIndex % 2 == 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0;
 		}
 
-		public PutPiece(Piece piece)
+		public void PutPiece(Piece piece)
         {
 			this.Piece = piece;
 
