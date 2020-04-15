@@ -21,7 +21,10 @@ namespace WolfSheepGame
             }
             else
             {
-                Console.WriteLine("No errors handling arguments...");
+                // Creates game instance
+                Game game = new Game(op);
+
+                // TODO Play()
             }
         }
     }
