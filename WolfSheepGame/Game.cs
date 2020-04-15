@@ -14,8 +14,14 @@ namespace WolfSheepGame
         /// </summary>
         private readonly Options gameOptions;
 
+        /// <summary>
+        /// The player controlling the wolf.
+        /// </summary>
         public WolfPlayer PlayerWolf { get; }
 
+        /// <summary>
+        /// The player controlling the sheep.
+        /// </summary>
         public SheepPlayer PlayerSheep { get; }
 
         /// <summary>
