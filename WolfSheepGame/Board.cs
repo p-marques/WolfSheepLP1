@@ -8,7 +8,7 @@ namespace WolfSheepGameLP1
 	{
 		public uint Size { get; private set; }
 
-		public BRow[] Rows { get; private set; }
+		public BoardRow[] Rows { get; private set; }
 
 		public Board(uint size)
 		{
@@ -18,31 +18,43 @@ namespace WolfSheepGameLP1
 
 		public void CreateRows()
 		{
-			this.Rows = new BRow(Size);
+			this.Rows = new BoardRow[Size];
 			for (int i = 0; i < Size; i++)
 			{
-				this.Rows[i] = new BRow(i, Size);
+				this.Rows[i] = new BoardRow(i, Size);
 			}
 		}
 
-		public void SetupTable(SheepPlayer sheepPlayer, WoolfPlayer woolfPlayer)
-		{
-			this.Rows[0].Squares[1].PlacePiece(wolfPlayer.WolfPiece);
 
-			for (int i = 0, j = 0; i < Rows.Length; i += 2, j++)
-			{
-				this.Rows[Size - 1].Squares[i].PlacePiece(sheepPlayer.SheepPieces[j]);
-			}
-		}
-
-		public bool IsSquareAvailable(Coord Pos)
+		public bool IsSquareAvailable(Piece piece, Axis Pos, Axis destination)
         {
 			bool result = false;
 
-			if((0 <= position.Column && position.Column < Size) && (0 <= position.Row && position.row < Size))
-            {
+			if(piece.Unicode.Equals("S"))
+			{
+				if((0 <= destination.Column && destination.Column < Size) && (0 <= destination.Row && destination.Row < Size) && ((destination.Column == Pos.Column - 1 ) || (destination.Row == Pos.Row - 1) || (destination.Row == Pos.Row + 1) ) )
+				{
+					result = Rows[destination.Row].Squares[destination.Column].Piece == null;
+				}
+			}
+			else if (piece.Unicode.Equals("W"))
+			{
+				if ((0 <= destination.Column && destination.Column < Size) && (0 <= destination.Row && destination.Row < Size) && ((destination.Column == Pos.Column - 1) || (destination.Column == Pos.Column + 1) || (destination.Row == Pos.Row - 1) || (destination.Row == Pos.Row + 1)))
+				{
+					result = Rows[destination.Row].Squares[destination.Column].Piece == null;
+				}
+			}
 
-            }
+			return result;
         }
+
+		public void Move(Piece piece, Axis destination)
+		{
+			piece.BoardSquare.Piece = null;
+
+			piece.BoardSquare = Rows[destination.Row].Squares[destination.Column];
+
+			piece.BoardSquare.Piece = piece;
+		}
 	}
 }
