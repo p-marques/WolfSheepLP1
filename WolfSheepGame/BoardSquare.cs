@@ -9,7 +9,7 @@ namespace WolfSheepGameLP1
 	{
 		private int i;
 		private int rowIndex;
-		public Axis Pos { get; private set; }
+		public Coord Pos { get; private set; }
 
 		public Piece Piece { get; set; } = null;
 
@@ -17,7 +17,7 @@ namespace WolfSheepGameLP1
 
 		public BoardSquare(int columnIndex, int rowIndex)
 		{
-			Pos = new Axis(columnIndex, rowIndex);
+			Pos = new Coord(columnIndex, rowIndex);
 
 			Playable = rowIndex % 2 != 0 && columnIndex % 2 == 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0;
 		}

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace WolfSheepGameLP1
 {
-    public struct Axis
+    public struct Coord
     {
         public int Column { get; }
         public int Row { get; }
 
-        public Axis(int column, int row)
+        public Coord(int column, int row)
         {
             Column = column;
             Row = row;

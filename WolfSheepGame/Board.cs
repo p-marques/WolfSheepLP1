@@ -26,7 +26,7 @@ namespace WolfSheepGameLP1
 		}
 
 
-		public bool IsSquareAvailable(Piece piece, Axis Pos, Axis destination)
+		public bool IsSquareAvailable(Piece piece, Coord Pos, Coord destination)
         {
 			bool result = false;
 
@@ -48,7 +48,7 @@ namespace WolfSheepGameLP1
 			return result;
         }
 
-		public void Move(Piece piece, Axis destination)
+		public void Move(Piece piece, Coord destination)
 		{
 			piece.BoardSquare.Piece = null;
 
