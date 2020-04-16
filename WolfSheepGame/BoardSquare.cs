@@ -22,6 +22,7 @@ namespace WolfSheepGameLP1
 			Playable = rowIndex % 2 != 0 && columnIndex % 2 == 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0;
 		}
 
+		//places a piece
 		public void PutPiece(Piece piece)
         {
 			this.Piece = piece;

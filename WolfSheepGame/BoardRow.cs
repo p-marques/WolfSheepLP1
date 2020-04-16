@@ -8,6 +8,7 @@ namespace WolfSheepGameLP1
     {
         public BoardSquare[] Squares { get; private set; }
 
+        //creates and array of squares
         public BoardRow(int rowIndex, uint size)
         {
             this.Squares = new BoardSquare[size];
