@@ -46,5 +46,12 @@ namespace WolfSheepGameLP1
 
             Board = new Board(gameOptions.BoardSize);
         }
+
+        public void Play()
+        {
+            Program.UIManager.SetupUI(Board);
+
+            Program.UIManager.RefreshUI();
+        }
     }
 }
