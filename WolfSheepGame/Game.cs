@@ -25,6 +25,11 @@ namespace WolfSheepGameLP1
         public SheepPlayer PlayerSheep { get; }
 
         /// <summary>
+        /// The game's board.
+        /// </summary>
+        public Board Board { get; private set; }
+
+        /// <summary>
         /// Creates a new instance of <see cref="Game"/>.
         /// </summary>
         /// <param name="options">Game options.</param>
@@ -34,7 +39,12 @@ namespace WolfSheepGameLP1
 
             PlayerWolf = new WolfPlayer();
 
-            PlayerSheep = new SheepPlayer();
+            // No rounding or parsing necessary.
+            // Validation done by Options garantees the BoardSize is an even number,
+            // making gameOptions.BoardSize / 2 always result in a uint.
+            PlayerSheep = new SheepPlayer(gameOptions.BoardSize / 2);
+
+            Board = new Board(gameOptions.BoardSize);
         }
     }
 }

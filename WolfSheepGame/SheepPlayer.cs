@@ -9,15 +9,24 @@ namespace WolfSheepGameLP1
     /// </summary>
     public class SheepPlayer : Player
     {
-        // Will have BoardSize / 2 pieces
+        /// <summary>
+        /// The pieces belonging to the Sheep Player.
+        /// </summary>
+        public SheepPiece[] Pieces { get; private set; }
 
         /// <summary>
         /// Create a new instance of <see cref="SheepPlayer"/>.
         /// Calls base constructor.
         /// </summary>
-        public SheepPlayer() : base()
+        /// <param name="pieceCount">The number of <see cref="SheepPiece"/> to add.</param>
+        public SheepPlayer(uint pieceCount) : base()
         {
+            Pieces = new SheepPiece[pieceCount];
 
+            for (int i = 0; i < pieceCount; i++)
+            {
+                Pieces[i] = new SheepPiece();
+            }
         }
     }
 }

@@ -9,7 +9,10 @@ namespace WolfSheepGameLP1
     /// </summary>
     public class WolfPlayer : Player
     {
-        /// Will have 1 game piece
+        /// <summary>
+        /// The piece belonging to the Wolf Player.
+        /// </summary>
+        public WolfPiece Piece { get; private set; }
 
         /// <summary>
         /// Create a new instance of <see cref="WolfPlayer"/>.
@@ -17,7 +20,7 @@ namespace WolfSheepGameLP1
         /// </summary>
         public WolfPlayer() : base()
         {
-
+            Piece = new WolfPiece();
         }
     }
 }
