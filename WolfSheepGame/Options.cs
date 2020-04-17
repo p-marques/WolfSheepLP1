@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WolfSheepGame
+namespace WolfSheepGameLP1
 {
     /// <summary>
     /// Struct to handle arguments inputed by the user through the command line.

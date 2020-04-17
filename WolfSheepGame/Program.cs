@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace WolfSheepGame
+namespace WolfSheepGameLP1
 {
     class Program
     {

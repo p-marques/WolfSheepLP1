@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WolfSheepGame
+namespace WolfSheepGameLP1
 {
     /// <summary>
     /// Class representing the Wolf Player. Inherits from <see cref="Player"/>.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WolfSheepGame
+namespace WolfSheepGameLP1
 {
     /// <summary>
     /// Class responsible for managing the entire game's flow.

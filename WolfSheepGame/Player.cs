@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WolfSheepGame
+namespace WolfSheepGameLP1
 {
     /// <summary>
     /// Abstract class representing a Player.
