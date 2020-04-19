@@ -17,5 +17,14 @@ namespace WolfSheepGameLP1
                 this.Squares[i] = new BoardSquare(i, rowIndex);
             }
         }
+
+        /// <summary>
+        /// Get all of the playable squares in this row.
+        /// </summary>
+        /// <returns>Array with all playable squares in this row.</returns>
+        public BoardSquare[] GetPlayableSquares()
+        {
+            return Array.FindAll(Squares, x => x.IsPlayable);
+        }
     }
 }

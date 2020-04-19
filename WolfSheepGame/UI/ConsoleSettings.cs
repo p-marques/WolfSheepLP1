@@ -6,75 +6,80 @@ namespace WolfSheepGameLP1.UI
 {
     /// <summary>
     /// Struct containing all of the default settings for the console UI.
-    /// Console colors -> color[something]
-    /// Cursor positions -> pos[something]
-    /// Width/Height (size) -> size[something]
+    /// Console colors -> Color[something]
+    /// Cursor positions -> Pos[something]
+    /// Width/Height (size) -> Size[something]
     /// </summary>
     public struct ConsoleSettings
     {
         /// <summary>
         /// The default background color for the console.
         /// </summary>
-        public const ConsoleColor colorConsoleBg = ConsoleColor.Black;
+        public const ConsoleColor ColorConsoleBg = ConsoleColor.Black;
 
         /// <summary>
         /// The default foreground color for the console.
         /// </summary>
-        public const ConsoleColor colorConsoleFg = ConsoleColor.White;
+        public const ConsoleColor ColorConsoleFg = ConsoleColor.White;
 
         /// <summary>
         /// The default background color for the title.
         /// </summary>
-        public const ConsoleColor colorTitleBg = ConsoleColor.White;
+        public const ConsoleColor ColorTitleBg = ConsoleColor.White;
 
         /// <summary>
         /// The default foreground color for the title.
         /// </summary>
-        public const ConsoleColor colorTitleFg = ConsoleColor.Black;
+        public const ConsoleColor ColorTitleFg = ConsoleColor.Black;
 
         /// <summary>
         /// The default background color for a board square.
         /// </summary>
-        public const ConsoleColor colorBoardSquareBg = ConsoleColor.Gray;
+        public const ConsoleColor ColorBoardSquareBg = ConsoleColor.Gray;
 
         /// <summary>
         /// The default background color for a playable board square.
         /// </summary>
-        public const ConsoleColor colorBoardSquarePlayableBg = ConsoleColor.Cyan;
+        public const ConsoleColor ColorBoardSquarePlayableBg = ConsoleColor.Cyan;
+
+        /// <summary>
+        /// The default background color for a highlighted board square.
+        /// </summary>
+        public const ConsoleColor ColorBoardSquareHighlightedBg = ConsoleColor.Red;
 
         /// <summary>
         /// The default foreground color for a board square.
         /// </summary>
-        public const ConsoleColor colorBoardSquareFg = ConsoleColor.White;
+        public const ConsoleColor ColorBoardSquareFg = ConsoleColor.Black;
 
         /// <summary>
         /// The default left cursor position of the title.
         /// </summary>
-        public const int posTitleLeft = 1;
+        public const int PosTitleLeft = 1;
 
         /// <summary>
         /// The default top cursor position of the title.
         /// </summary>
-        public const int posTitleTop = 1;
+        public const int PosTitleTop = 1;
 
         /// <summary>
         /// The default left cursor position of the board.
         /// </summary>
-        public const int posBoardLeft = 1;
+        public const int PosBoardLeft = 1;
 
         /// <summary>
         /// The default top cursor position of the board.
         /// </summary>
-        public const int posBoardTop = 5;
+        public const int PosBoardTop = 5;
 
         /// <summary>
         /// The default size of a square of the board.
         /// </summary>
-        public const int sizeBoardSquare = 3;
+        public const int SizeBoardSquare = 3;
 
         /// <summary>
         /// The default index position of the piece inside a board square.
         /// </summary>
-        public const int posPieceIndex = 1;
+        public const int PosPieceIndex = 1;
     }
 }

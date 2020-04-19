@@ -28,6 +28,8 @@ namespace WolfSheepGameLP1
             {
                 Pieces[i] = new SheepPiece();
             }
+
+            AllowedMoveDirections = new Direction[] { Direction.TopLeft, Direction.TopRight };
         }
     }
 }

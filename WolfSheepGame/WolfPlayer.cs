@@ -22,6 +22,8 @@ namespace WolfSheepGameLP1
         public WolfPlayer(string name) : base(name)
         {
             Piece = new WolfPiece();
+
+            AllowedMoveDirections = new Direction[] { Direction.TopLeft, Direction.TopRight, Direction.BottomLeft, Direction.BottomRight };
         }
     }
 }

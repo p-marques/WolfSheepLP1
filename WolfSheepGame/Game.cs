@@ -45,13 +45,47 @@ namespace WolfSheepGameLP1
             PlayerSheep = new SheepPlayer(gameOptions.BoardSize / 2, gameOptions.SheepPlayerName);
 
             Board = new Board(gameOptions.BoardSize);
+            Board.SetupGamePieces(PlayerSheep);
         }
 
         public void Play()
         {
+            bool playing;
+
             Program.UIManager.SetupUI(Board);
 
             Program.UIManager.RefreshUI();
+
+            playing = true;
+
+            // Main game loop
+            while (playing)
+            {
+                if (PlayerWolf.RoundCounter > 0 && !Board.GetPlayerHasPossibleMoves(PlayerWolf))
+                {
+                    break;
+                }
+
+                // Wolf player plays
+                playing = Program.UIManager.PromptPlayerToMovePiece(PlayerWolf);
+
+                // If Wolf player didn't ask to quit the game...
+                if (playing)
+                {
+                    if (Board.GetHasWolfPlayerWon(PlayerWolf))
+                    {
+                        break;
+                    }
+
+                    if (!Board.GetPlayerHasPossibleMoves(PlayerSheep))
+                    {
+                        break;
+                    }
+
+                    // ...Sheep player plays
+                    playing = Program.UIManager.PromptPlayerToMovePiece(PlayerSheep);
+                }
+            }
         }
     }
 }

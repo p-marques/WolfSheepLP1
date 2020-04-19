@@ -9,7 +9,7 @@ namespace WolfSheepGameLP1
 	{
 		public Coord Pos { get; private set; }
 
-		public Piece Piece { get; set; } = null;
+		public Piece Piece { get; private set; } = null;
 
 		public bool IsPlayable { get; private set; }
 
@@ -20,11 +20,22 @@ namespace WolfSheepGameLP1
 			IsPlayable = rowIndex % 2 != 0 && columnIndex % 2 == 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0;
 		}
 
+		/// <summary>
+		/// Place a game piece in this square.
+		/// </summary>
+		/// <param name="piece">The game piece to place.</param>
 		public void PutPiece(Piece piece)
         {
+			// If this piece is already on the board...
+			if (piece.BoardSquare != null)
+			{
+				// ...remove it from it's current location.
+				piece.BoardSquare.Piece = null;
+			}
+
 			this.Piece = piece;
 
-			piece.BoardSquare = this;
+			piece.SetBoardSquareReference(this);
         }
 	}
 }
