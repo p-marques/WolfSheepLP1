@@ -51,97 +51,6 @@ namespace WolfSheepGameLP1.UI
         }
 
         /// <summary>
-        /// Displays the game's title.
-        /// </summary>
-        private void DisplayTitle()
-        {
-            SetConsoleColor(ConsoleSettings.ColorTitleBg, ConsoleSettings.ColorTitleFg);
-
-            SetCursorPosition(ConsoleSettings.PosTitleLeft, ConsoleSettings.PosTitleTop);
-
-            Console.WriteLine("╔══════════════════════╗");
-
-            SetCursorPosition(ConsoleSettings.PosTitleLeft, null);
-
-            Console.WriteLine("║    Wolf and Sheep    ║");
-
-            SetCursorPosition(ConsoleSettings.PosTitleLeft, null);
-
-            Console.WriteLine("╚══════════════════════╝");
-        }
-
-        /// <summary>
-        /// Display the entire game's board.
-        /// </summary>
-        private void DisplayBoard()
-        {
-            SetCursorPosition(ConsoleSettings.PosBoardLeft, ConsoleSettings.PosBoardTop);
-
-            // Go through the rows and display them
-            for (int i = 0; i < board.Rows.Length; i++)
-            {
-                DisplayBoardRow(board.Rows[i]);
-            }
-        }
-
-        /// <summary>
-        /// Display a board row.
-        /// </summary>
-        /// <param name="row">The row to be displayed.</param>
-        private void DisplayBoardRow(BoardRow row)
-        {
-            // Go through the squares and display them
-            for (int i = 0; i < row.Squares.Length; i++)
-            {
-                DisplayBoardSquare(row.Squares[i]);
-            }
-        }
-
-        /// <summary>
-        /// Display a board square.
-        /// </summary>
-        /// <param name="square">The square to be displayed.</param>
-        /// /// <param name="highlight">Highlight the square? Defaults to false.</param>
-        private void DisplayBoardSquare(BoardSquare square, bool highlight = false)
-        {
-            ConsoleColor squareBgColor;
-
-            squareBgColor = square.IsPlayable ? 
-                ConsoleSettings.ColorBoardSquarePlayableBg : ConsoleSettings.ColorBoardSquareBg;
-
-            if (highlight)
-                squareBgColor = ConsoleSettings.ColorBoardSquareHighlightedBg;
-
-            SetConsoleColor(squareBgColor, ConsoleSettings.ColorBoardSquareFg);
-
-            SetCursorPosition(ConsoleSettings.PosBoardLeft + square.Pos.Column * ConsoleSettings.SizeBoardSquare, 
-                ConsoleSettings.PosBoardTop + square.Pos.Row);
-
-            // Go through the square's "tiles"
-            for (int i = 0; i < ConsoleSettings.SizeBoardSquare; i++)
-            {
-                if (i == ConsoleSettings.PosPieceIndex && square.Piece != null)
-                {
-                    Console.Write(square.Piece.Unicode);
-                    continue;
-                }
-
-                Console.Write(" ");
-            }
-        }
-
-        /// <summary>
-        /// Highlights a single square on the board.
-        /// </summary>
-        /// <param name="square">The square to be highlighted.</param>
-        private void HighlightBoardSquare(BoardSquare square)
-        {
-            RefreshUI();
-
-            DisplayBoardSquare(square, true);
-        }
-
-        /// <summary>
         /// Prompt player to make a move.
         /// </summary>
         /// <param name="player">The player to be prompted.</param>
@@ -252,6 +161,97 @@ namespace WolfSheepGameLP1.UI
             }
 
             return keepPlaying;
+        }
+
+        /// <summary>
+        /// Displays the game's title.
+        /// </summary>
+        private void DisplayTitle()
+        {
+            SetConsoleColor(ConsoleSettings.ColorTitleBg, ConsoleSettings.ColorTitleFg);
+
+            SetCursorPosition(ConsoleSettings.PosTitleLeft, ConsoleSettings.PosTitleTop);
+
+            Console.WriteLine("╔══════════════════════╗");
+
+            SetCursorPosition(ConsoleSettings.PosTitleLeft, null);
+
+            Console.WriteLine("║    Wolf and Sheep    ║");
+
+            SetCursorPosition(ConsoleSettings.PosTitleLeft, null);
+
+            Console.WriteLine("╚══════════════════════╝");
+        }
+
+        /// <summary>
+        /// Display the entire game's board.
+        /// </summary>
+        private void DisplayBoard()
+        {
+            SetCursorPosition(ConsoleSettings.PosBoardLeft, ConsoleSettings.PosBoardTop);
+
+            // Go through the rows and display them
+            for (int i = 0; i < board.Rows.Length; i++)
+            {
+                DisplayBoardRow(board.Rows[i]);
+            }
+        }
+
+        /// <summary>
+        /// Display a board row.
+        /// </summary>
+        /// <param name="row">The row to be displayed.</param>
+        private void DisplayBoardRow(BoardRow row)
+        {
+            // Go through the squares and display them
+            for (int i = 0; i < row.Squares.Length; i++)
+            {
+                DisplayBoardSquare(row.Squares[i]);
+            }
+        }
+
+        /// <summary>
+        /// Display a board square.
+        /// </summary>
+        /// <param name="square">The square to be displayed.</param>
+        /// /// <param name="highlight">Highlight the square? Defaults to false.</param>
+        private void DisplayBoardSquare(BoardSquare square, bool highlight = false)
+        {
+            ConsoleColor squareBgColor;
+
+            squareBgColor = square.IsPlayable ?
+                ConsoleSettings.ColorBoardSquarePlayableBg : ConsoleSettings.ColorBoardSquareBg;
+
+            if (highlight)
+                squareBgColor = ConsoleSettings.ColorBoardSquareHighlightedBg;
+
+            SetConsoleColor(squareBgColor, ConsoleSettings.ColorBoardSquareFg);
+
+            SetCursorPosition(ConsoleSettings.PosBoardLeft + square.Pos.Column * ConsoleSettings.SizeBoardSquare,
+                ConsoleSettings.PosBoardTop + square.Pos.Row);
+
+            // Go through the square's "tiles"
+            for (int i = 0; i < ConsoleSettings.SizeBoardSquare; i++)
+            {
+                if (i == ConsoleSettings.PosPieceIndex && square.Piece != null)
+                {
+                    Console.Write(square.Piece.Unicode);
+                    continue;
+                }
+
+                Console.Write(" ");
+            }
+        }
+
+        /// <summary>
+        /// Highlights a single square on the board.
+        /// </summary>
+        /// <param name="square">The square to be highlighted.</param>
+        private void HighlightBoardSquare(BoardSquare square)
+        {
+            RefreshUI();
+
+            DisplayBoardSquare(square, true);
         }
 
         /// <summary>

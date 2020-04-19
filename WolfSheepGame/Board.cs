@@ -107,6 +107,17 @@ namespace WolfSheepGameLP1
 		}
 
 		/// <summary>
+		/// Checks if the Wolf player has won the game by reaching the
+		/// original row of the sheep pieces.
+		/// </summary>
+		/// <param name="wolfPlayer">The Wolf player.</param>
+		/// <returns>A boolean value representing if the wolf player has won.</returns>
+		public bool GetHasWolfPlayerWon(WolfPlayer wolfPlayer)
+		{
+			return wolfPlayer.Piece.BoardSquare.Pos.Row == Size - 1;
+		}
+
+		/// <summary>
 		/// Checks if a given piece has any possible moves,
 		/// </summary>
 		/// <param name="player">The player to witch the piece belongs to.</param>
@@ -133,17 +144,6 @@ namespace WolfSheepGameLP1
 			}
 
 			return result;
-		}
-
-		/// <summary>
-		/// Checks if the Wolf player has won the game by reaching the
-		/// original row of the sheep pieces.
-		/// </summary>
-		/// <param name="wolfPlayer">The Wolf player.</param>
-		/// <returns>A boolean value representing if the wolf player has won.</returns>
-		public bool GetHasWolfPlayerWon(WolfPlayer wolfPlayer)
-		{
-			return wolfPlayer.Piece.BoardSquare.Pos.Row == Size - 1;
 		}
 
 		/// <summary>
