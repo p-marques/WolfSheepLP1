@@ -63,26 +63,24 @@ namespace WolfSheepGameLP1
             {
                 if (PlayerWolf.RoundCounter > 0 && !Board.GetPlayerHasPossibleMoves(PlayerWolf))
                 {
+                    Program.UIManager.DisplayGameOverScreen(PlayerSheep);
+
                     break;
                 }
 
                 // Wolf player plays
                 playing = Program.UIManager.PromptPlayerToMovePiece(PlayerWolf);
 
-                // If Wolf player didn't ask to quit the game...
+                // If Wolf player didn't ask to quit the game
                 if (playing)
                 {
-                    if (Board.GetHasWolfPlayerWon(PlayerWolf))
+                    if (Board.GetHasWolfPlayerWon(PlayerWolf) || !Board.GetPlayerHasPossibleMoves(PlayerSheep))
                     {
+                        Program.UIManager.DisplayGameOverScreen(PlayerWolf);
                         break;
                     }
 
-                    if (!Board.GetPlayerHasPossibleMoves(PlayerSheep))
-                    {
-                        break;
-                    }
-
-                    // ...Sheep player plays
+                    // Sheep player plays
                     playing = Program.UIManager.PromptPlayerToMovePiece(PlayerSheep);
                 }
             }

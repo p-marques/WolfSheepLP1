@@ -12,7 +12,27 @@ namespace WolfSheepGameLP1.UI
         /// <summary>
         /// The game's board.
         /// </summary>
-        private Board board;
+        private Board Board;
+
+        /// <summary>
+        /// The current player's name.
+        /// </summary>
+        private string CurrentPlayerName;
+
+        /// <summary>
+        /// The current call to action.
+        /// </summary>
+        private string CallToAction;
+
+        /// <summary>
+        /// The log messages detailing the last 5 moves.
+        /// </summary>
+        private IList<string> LogMessages;
+
+        /// <summary>
+        /// The current player input state.
+        /// </summary>
+        private PlayerInputState PlayerInputState;
 
         /// <summary>
         /// Creates a new instance of <see cref="ConsoleUserInterface"/>.
@@ -23,6 +43,7 @@ namespace WolfSheepGameLP1.UI
 
             Console.CursorVisible = false;
 
+            LogMessages = new List<string>();
         }
 
         /// <summary>
@@ -31,7 +52,7 @@ namespace WolfSheepGameLP1.UI
         /// <param name="inBoard">The game's board.</param>
         public void SetupUI(Board inBoard)
         {
-            this.board = inBoard;
+            this.Board = inBoard;
         }
 
         /// <summary>
@@ -47,7 +68,43 @@ namespace WolfSheepGameLP1.UI
 
             DisplayBoard();
 
+            DisplayLogMessages();
+
+            DisplayPlayerHelp();
+
             SetConsoleColorToDefault();
+        }
+
+        /// <summary>
+        /// Displays the game over screen.
+        /// </summary>
+        /// <param name="player">The player that won the game.</param>
+        public void DisplayGameOverScreen(Player player = null)
+        {
+            SetConsoleColorToDefault();
+
+            Console.Clear();
+
+            Console.WriteLine("══════════════════════");
+
+            Console.WriteLine("  Game over!");
+
+            if (player != null)
+            {
+                Console.WriteLine();
+
+                Console.WriteLine($"  {player.Name} won in {player.RoundCounter} moves. Congratulations!");
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("══════════════════════");
+
+            Console.WriteLine();
+
+            Console.WriteLine("Thank you for playing...");
+
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -62,6 +119,8 @@ namespace WolfSheepGameLP1.UI
             Piece pieceToMove = null;
             BoardSquare destinationSquare = null;
 
+            CurrentPlayerName = player.Name;
+
             if (player is WolfPlayer wolfPlayer)
             {
                 pieceToMove = wolfPlayer.Piece;
@@ -74,15 +133,21 @@ namespace WolfSheepGameLP1.UI
                     // signaling desire to close the game.
                     if (destinationSquare == null)
                     {
+                        DisplayGameOverScreen();
+
                         return false;
                     }
 
-                    board.MovePiece(pieceToMove, destinationSquare);
+                    Board.MovePiece(pieceToMove, destinationSquare);
+
+                    AddLogMessage($"{CurrentPlayerName} placed his piece at {destinationSquare.Pos.ToString()}.");
 
                     RefreshUI();
 
                     destinationSquare = null;
                 }
+
+                PlayerInputState = PlayerInputState.WolfPlayer;
             }
             else if (player is SheepPlayer sheepPlayer)
             {
@@ -92,9 +157,19 @@ namespace WolfSheepGameLP1.UI
                 // signaling desire to close the game.
                 if (pieceToMove == null)
                 {
+                    DisplayGameOverScreen();
+
                     return false;
                 }
+
+                PlayerInputState = PlayerInputState.SheepPlayer;
             }
+
+            CallToAction = "Select the square you wish to move the piece to.";
+
+            RefreshUI();
+
+            HighlightBoardSquare(pieceToMove.BoardSquare, true);
 
             // Breaking from this loop in controlled through player input.
             while (true)
@@ -127,21 +202,23 @@ namespace WolfSheepGameLP1.UI
                     if (destinationSquare != null)
                     {
                         // ...ask the board to make the move. If it's a success...
-                        if (board.MovePiece(pieceToMove, destinationSquare))
+                        if (Board.MovePiece(pieceToMove, destinationSquare))
                         {
-                            // ...update the player's round counter ...
-                            player.UpdateRoundCounter();
+                            // ...add log message...
+                            AddLogMessage($"{CurrentPlayerName} moved piece to {destinationSquare.Pos.ToString()}.");
 
-                            // ...and refresh the UI.
-                            RefreshUI();
+                            // ...update the player's round counter.
+                            player.UpdateRoundCounter();
 
                             break;
                         }
                         // If it failed...
                         else
                         {
-                            // TODO: ...tell the player why he can't make the move.
+                            AddLogMessage($"{CurrentPlayerName} you can't move a piece to a already occupied square.");
                         }
+
+                        RefreshUI();
                     }
                 }
 
@@ -149,7 +226,7 @@ namespace WolfSheepGameLP1.UI
                 if (player.GetIsMoveAllowed(directionInput))
                 {
                     // ...ask the board for the destination square...
-                    destinationSquare = board.GetBoardSquareByDirection(pieceToMove, directionInput);
+                    destinationSquare = Board.GetBoardSquareByDirection(pieceToMove, directionInput);
 
                     // ...if the theoretical square exists...
                     if (destinationSquare != null)
@@ -159,6 +236,9 @@ namespace WolfSheepGameLP1.UI
                     }
                 }
             }
+
+            if (!keepPlaying)
+                SetCursorPositionToEnd();
 
             return keepPlaying;
         }
@@ -191,9 +271,9 @@ namespace WolfSheepGameLP1.UI
             SetCursorPosition(ConsoleSettings.PosBoardLeft, ConsoleSettings.PosBoardTop);
 
             // Go through the rows and display them
-            for (int i = 0; i < board.Rows.Length; i++)
+            for (int i = 0; i < Board.Rows.Length; i++)
             {
-                DisplayBoardRow(board.Rows[i]);
+                DisplayBoardRow(Board.Rows[i]);
             }
         }
 
@@ -214,15 +294,16 @@ namespace WolfSheepGameLP1.UI
         /// Display a board square.
         /// </summary>
         /// <param name="square">The square to be displayed.</param>
-        /// /// <param name="highlight">Highlight the square? Defaults to false.</param>
-        private void DisplayBoardSquare(BoardSquare square, bool highlight = false)
+        /// <param name="highlightSquare">Highlight the square? Defaults to false.</param>
+        /// /// <param name="highlightSquare">Highlight the piece? Defaults to false.</param>
+        private void DisplayBoardSquare(BoardSquare square, bool highlightSquare = false, bool highlightPiece = false)
         {
             ConsoleColor squareBgColor;
 
             squareBgColor = square.IsPlayable ?
                 ConsoleSettings.ColorBoardSquarePlayableBg : ConsoleSettings.ColorBoardSquareBg;
 
-            if (highlight)
+            if (highlightSquare)
                 squareBgColor = ConsoleSettings.ColorBoardSquareHighlightedBg;
 
             SetConsoleColor(squareBgColor, ConsoleSettings.ColorBoardSquareFg);
@@ -235,6 +316,11 @@ namespace WolfSheepGameLP1.UI
             {
                 if (i == ConsoleSettings.PosPieceIndex && square.Piece != null)
                 {
+                    if (highlightPiece)
+                    {
+                        SetConsoleColor(squareBgColor, ConsoleSettings.ColorSelectedPieceFg);
+                    }
+
                     Console.Write(square.Piece.Unicode);
                     continue;
                 }
@@ -247,11 +333,110 @@ namespace WolfSheepGameLP1.UI
         /// Highlights a single square on the board.
         /// </summary>
         /// <param name="square">The square to be highlighted.</param>
-        private void HighlightBoardSquare(BoardSquare square)
+        /// <param name="highlightPiece">Highlight the piece also?</param>
+        private void HighlightBoardSquare(BoardSquare square, bool highlightPiece = false)
         {
+            int currentPosX, currentPosY;
+
+            currentPosX = Console.CursorLeft;
+            currentPosY = Console.CursorTop;
+
             RefreshUI();
 
-            DisplayBoardSquare(square, true);
+            DisplayBoardSquare(square, true, highlightPiece);
+
+            SetCursorPosition(currentPosX, currentPosY);
+        }
+
+        /// <summary>
+        /// Displays player help information.
+        /// </summary>
+        private void DisplayPlayerHelp()
+        {
+            int startingPointLeft = ConsoleSettings.PosBoardLeft + ConsoleSettings.SizeBoardSquare * (int)Board.Size + 2;
+            IList<string> availableInputs = GetAvailableInputs();
+
+            SetConsoleColorToDefault();
+
+            SetCursorPosition(startingPointLeft, ConsoleSettings.PosBoardTop);
+
+            Console.Write($"Now playing: {CurrentPlayerName}");
+
+            SetConsoleColor(ConsoleSettings.ColorCallToActionBg, ConsoleSettings.ColorCallToActionFg);
+
+            SetCursorPosition(startingPointLeft, ConsoleSettings.PosBoardTop + 2);
+
+            Console.Write($"{CallToAction}");
+
+            SetCursorPosition(startingPointLeft, Console.CursorTop + 2);
+
+            SetConsoleColorToDefault();
+
+            Console.Write("Available inputs:");
+
+            for (int i = 0; i < availableInputs.Count; i++)
+            {
+                SetCursorPosition(startingPointLeft, Console.CursorTop + 1);
+
+                Console.Write(availableInputs[i]);
+            }
+
+            SetCursorPosition(startingPointLeft, Console.CursorTop + 2);
+
+            Console.Write("Input: ");
+        }
+
+        /// <summary>
+        /// Get a list of the currently available inputs.
+        /// </summary>
+        /// <returns>A list with the available inputs.</returns>
+        private IList<string> GetAvailableInputs()
+        {
+            IList<string> value = new List<string>
+            {
+                "[ESC]: Exit game.",
+                "[ENTER]: Confirm selection/move."
+            };
+
+            switch (PlayerInputState)
+            {
+                case PlayerInputState.LeftAndRight:
+                    value.Add("[D], [RightArrow], [N6]: Left.");
+                    value.Add("[A], [LeftArrow], [N4]: Right.");
+                    break;
+                case PlayerInputState.WolfPlayer:
+                    value.Add("[Q], [N7]: Top left.");
+                    value.Add("[E], [N9]: Top right.");
+                    value.Add("[Z], [N1]: Bottom left.");
+                    value.Add("[C], [N3]: Bottom right.");
+                    break;
+                case PlayerInputState.SheepPlayer:
+                    value.Add("[Q], [N7]: Top left.");
+                    value.Add("[E], [N9]: Top right.");
+                    break;
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Display the log messages.
+        /// </summary>
+        private void DisplayLogMessages()
+        {
+            SetConsoleColor(ConsoleSettings.ColorLogMessageBg, ConsoleSettings.ColorLogMessageFg);
+
+            SetCursorPosition(ConsoleSettings.PosBoardLeft, ConsoleSettings.PosBoardTop + (int)Board.Size + 5);
+
+            if (LogMessages.Count > 0)
+                Console.Write("Log messages:");
+
+            for (int i = 0; i < LogMessages.Count; i++)
+            {
+                SetCursorPosition(ConsoleSettings.PosBoardLeft, Console.CursorTop + 1);
+
+                Console.Write($"\t{LogMessages[i]}");
+            }
         }
 
         /// <summary>
@@ -264,9 +449,12 @@ namespace WolfSheepGameLP1.UI
             ConsoleKey userInput;
             Direction directionInput;
             BoardSquare square;
-            BoardSquare[] allowedSquares = board.Rows[0].GetPlayableSquares();
-
+            BoardSquare[] allowedSquares = Board.Rows[0].GetPlayableSquares();
             int currentSquareIndex = 0;
+
+            PlayerInputState = PlayerInputState.LeftAndRight;
+
+            CallToAction = "Select the starting square for your piece.";
 
             while (true)
             {
@@ -340,6 +528,10 @@ namespace WolfSheepGameLP1.UI
             Piece piece;
             int currentPieceIndex = 0;
 
+            PlayerInputState = PlayerInputState.LeftAndRight;
+
+            CallToAction = "Select the piece you wish to move.";
+
             // Only leaves loop on player instruction
             while (true)
             {
@@ -352,6 +544,18 @@ namespace WolfSheepGameLP1.UI
                 // If player presses enter...
                 if (userInput == ConsoleKey.Enter)
                 {
+                    // ...check if selected piece has any possible move. If not...
+                    if (!Board.GetPieceHasPossibleMoves(player, piece))
+                    {
+                        // ...warn the player...
+                        AddLogMessage($"{CurrentPlayerName} you can't select that piece because it doens't have any possible moves.");
+
+                        // ...refresh the UI and continue
+                        RefreshUI();
+
+                        continue;
+                    }
+
                     // ...refresh the UI...
                     RefreshUI();
 
@@ -452,6 +656,25 @@ namespace WolfSheepGameLP1.UI
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Add a log message to the list.
+        /// </summary>
+        /// <param name="msg">The message to add.</param>
+        private void AddLogMessage(string msg)
+        {
+            if (LogMessages.Count >= ConsoleSettings.SizeMaxLogMessages)
+            {
+                LogMessages.RemoveAt(0);
+            }
+
+            LogMessages.Add(msg);
+        }
+
+        private void SetCursorPositionToEnd()
+        {
+            SetCursorPosition(0, ConsoleSettings.PosBoardTop + (int)Board.Size + 5 + LogMessages.Count + 1);
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace WolfSheepGameLP1
 
         public override string ToString()
         {
-            return $"Row: {Row}, Column: {Column}";
+            return $"{(char)('A' + Column)}{Row + 1}";
         }
     }
 }

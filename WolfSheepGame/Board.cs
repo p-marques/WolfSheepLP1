@@ -123,7 +123,7 @@ namespace WolfSheepGameLP1
 		/// <param name="player">The player to witch the piece belongs to.</param>
 		/// <param name="piece">The piece to check for possible moves.</param>
 		/// <returns>A boolean value representing if available moves are present.</returns>
-		private bool GetPieceHasPossibleMoves(Player player, Piece piece)
+		public bool GetPieceHasPossibleMoves(Player player, Piece piece)
 		{
 			BoardSquare holderSquare;
 			bool result = false;

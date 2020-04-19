@@ -53,6 +53,31 @@ namespace WolfSheepGameLP1.UI
         public const ConsoleColor ColorBoardSquareFg = ConsoleColor.Black;
 
         /// <summary>
+        /// The default foreground color for the selected piece.
+        /// </summary>
+        public const ConsoleColor ColorSelectedPieceFg = ConsoleColor.White;
+
+        /// <summary>
+        /// The default background color for the log messages.
+        /// </summary>
+        public const ConsoleColor ColorLogMessageBg = ConsoleColor.Black;
+
+        /// <summary>
+        /// The default foreground color for the log messages.
+        /// </summary>
+        public const ConsoleColor ColorLogMessageFg = ConsoleColor.Yellow;
+
+        /// <summary>
+        /// The default background color for the call to action.
+        /// </summary>
+        public const ConsoleColor ColorCallToActionBg = ConsoleColor.Red;
+
+        /// <summary>
+        /// The default foreground for the call to action.
+        /// </summary>
+        public const ConsoleColor ColorCallToActionFg = ConsoleColor.White;
+
+        /// <summary>
         /// The default left cursor position of the title.
         /// </summary>
         public const int PosTitleLeft = 1;
@@ -73,13 +98,18 @@ namespace WolfSheepGameLP1.UI
         public const int PosBoardTop = 5;
 
         /// <summary>
+        /// The default index position of the piece inside a board square.
+        /// </summary>
+        public const int PosPieceIndex = 1;
+
+        /// <summary>
         /// The default size of a square of the board.
         /// </summary>
         public const int SizeBoardSquare = 3;
 
         /// <summary>
-        /// The default index position of the piece inside a board square.
+        /// The maximum amount of vissible log messages.
         /// </summary>
-        public const int PosPieceIndex = 1;
+        public const int SizeMaxLogMessages = 5;
     }
 }
