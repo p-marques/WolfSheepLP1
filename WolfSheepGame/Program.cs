@@ -14,7 +14,7 @@ namespace WolfSheepGameLP1
         /// <summary>
         /// Program stating point.
         /// </summary>
-        /// <param name="args">Optional arguments. Allowed arguments: -s.</param>
+        /// <param name="args">Optional arguments. Allowed arguments: -h, -s, -pw, -ps.</param>
         static void Main(string[] args)
         {
             // Create instance of the user interface manager
@@ -24,9 +24,19 @@ namespace WolfSheepGameLP1
             Options op = Options.ParseOptionsFromArgs(args);
 
             // Something went wrong parsing arguments?
-            if (op.Error)
+            if (op.ParserResult == OptionsParserResult.Error)
             {
                 Console.WriteLine(op.ErrorMsg);
+            }
+            // Player asked for the help messages ?
+            else if (op.ParserResult == OptionsParserResult.Help)
+            {
+                Console.WriteLine("Available arguments:");
+
+                for (int i = 0; i < Options.HelpMessages.Length; i++)
+                {
+                    Console.WriteLine(Options.HelpMessages[i]);
+                }
             }
             else
             {

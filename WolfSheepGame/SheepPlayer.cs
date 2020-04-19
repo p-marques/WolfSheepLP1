@@ -19,7 +19,8 @@ namespace WolfSheepGameLP1
         /// Calls base constructor.
         /// </summary>
         /// <param name="pieceCount">The number of <see cref="SheepPiece"/> to add.</param>
-        public SheepPlayer(uint pieceCount) : base()
+        /// /// <param name="name">The player's name.</param>
+        public SheepPlayer(uint pieceCount, string name) : base(name)
         {
             Pieces = new SheepPiece[pieceCount];
 

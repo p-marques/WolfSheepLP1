@@ -37,12 +37,12 @@ namespace WolfSheepGameLP1
         {
             gameOptions = options;
 
-            PlayerWolf = new WolfPlayer();
+            PlayerWolf = new WolfPlayer(gameOptions.WolfPlayerName);
 
             // No rounding or parsing necessary.
             // Validation done by Options garantees the BoardSize is an even number,
             // making gameOptions.BoardSize / 2 always result in a uint.
-            PlayerSheep = new SheepPlayer(gameOptions.BoardSize / 2);
+            PlayerSheep = new SheepPlayer(gameOptions.BoardSize / 2, gameOptions.SheepPlayerName);
 
             Board = new Board(gameOptions.BoardSize);
         }

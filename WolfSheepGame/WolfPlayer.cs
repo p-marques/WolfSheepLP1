@@ -18,7 +18,8 @@ namespace WolfSheepGameLP1
         /// Create a new instance of <see cref="WolfPlayer"/>.
         /// Calls base constructor.
         /// </summary>
-        public WolfPlayer() : base()
+        /// <param name="name">The name of the player.</param>
+        public WolfPlayer(string name) : base(name)
         {
             Piece = new WolfPiece();
         }

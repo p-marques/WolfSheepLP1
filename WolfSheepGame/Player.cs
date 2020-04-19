@@ -15,11 +15,17 @@ namespace WolfSheepGameLP1
         public int RoundCounter { get; protected set; }
 
         /// <summary>
+        /// The name of the player.
+        /// </summary>
+        public string Name { get; protected set; }
+
+        /// <summary>
         /// Base constructor.
         /// </summary>
-        protected Player()
+        protected Player(string name)
         {
             RoundCounter = 0;
+            Name = name;
         }
     }
 }
