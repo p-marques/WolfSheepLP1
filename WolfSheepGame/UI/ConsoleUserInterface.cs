@@ -171,8 +171,6 @@ namespace WolfSheepGameLP1.UI
 
                 CallToAction = "Select the square you wish to move the piece to.";
 
-                DisplayPlayerHelp();
-
                 HighlightBoardSquare(pieceToMove.BoardSquare, true);
 
                 userInput = GetPlayerInputKey();
@@ -237,6 +235,7 @@ namespace WolfSheepGameLP1.UI
 
                         // ...highlight it.
                         HighlightBoardSquare(destinationSquare);
+                        HighlightBoardSquare(pieceToMove.BoardSquare, true);
                     }
                 }
             }
