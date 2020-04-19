@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WolfSheepGame;
 
 namespace WolfSheepGameLP1
 {
@@ -210,19 +209,6 @@ namespace WolfSheepGameLP1
 			}
 
 			return new Coord(oldCoords.Column + columnDelta, oldCoords.Row + rowDelta);
-		}
-
-		/// <summary>
-		/// sets the inicial table putting the wolf piece in the meadle in the top and in the bottom the four sheeps
-		/// </summary>
-		public void SetStartingdTable(WolfPlayer wolfPlayer, SheepPlayer sheepPlayer)
-		{
-			this.Rows[0].Squares[1].PutPiece(wolfPlayer.WolfPiece);
-
-			for (int i = 0, j = 0; i < Rows.Length; i += 2, j++)
-			{
-				this.Rows[Size - 1].Squares[i].PutPiece(sheepPlayer.SheepPieces[j]);
-			}
 		}
 	}
 }
