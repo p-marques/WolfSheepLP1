@@ -405,8 +405,8 @@ namespace WolfSheepGameLP1.UI
             switch (PlayerInputState)
             {
                 case PlayerInputState.LeftAndRight:
-                    value.Add("[D], [RightArrow], [N6]: Left.");
-                    value.Add("[A], [LeftArrow], [N4]: Right.");
+                    value.Add("[D], [RightArrow], [N6]: Right.");
+                    value.Add("[A], [LeftArrow], [N4]: Left.");
                     break;
                 case PlayerInputState.WolfPlayer:
                     value.Add("[Q], [N7]: Top left.");
