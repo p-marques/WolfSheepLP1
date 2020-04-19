@@ -142,49 +142,48 @@ namespace WolfSheepGameLP1.UI
 
                     AddLogMessage($"{CurrentPlayerName} placed his piece at {destinationSquare.Pos.ToString()}.");
 
-                    RefreshUI();
-
                     destinationSquare = null;
                 }
 
                 PlayerInputState = PlayerInputState.WolfPlayer;
+
+                RefreshUI();
             }
-            else if (player is SheepPlayer sheepPlayer)
-            {
-                pieceToMove = PromptSheepPlayerToSelectPiece(sheepPlayer);
-
-                // If player presses ESCAPE during piece selection it returns null,
-                // signaling desire to close the game.
-                if (pieceToMove == null)
-                {
-                    DisplayGameOverScreen();
-
-                    return false;
-                }
-
-                PlayerInputState = PlayerInputState.SheepPlayer;
-            }
-
-            CallToAction = "Select the square you wish to move the piece to.";
-
-            RefreshUI();
-
-            HighlightBoardSquare(pieceToMove.BoardSquare, true);
 
             // Breaking from this loop in controlled through player input.
             while (true)
             {
+                // If the player is the Sheep player the first thing to do is select a piece
+                if (pieceToMove == null && player is SheepPlayer sheepPlayer)
+                {
+                    pieceToMove = PromptSheepPlayerToSelectPiece(sheepPlayer);
+
+                    // If player presses ESCAPE during piece selection it returns null,
+                    // signaling desire to close the game.
+                    if (pieceToMove == null)
+                    {
+                        keepPlaying = false;
+                        break;
+                    }
+
+                    PlayerInputState = PlayerInputState.SheepPlayer;
+                }
+
+                CallToAction = "Select the square you wish to move the piece to.";
+
+                DisplayPlayerHelp();
+
+                HighlightBoardSquare(pieceToMove.BoardSquare, true);
+
                 userInput = GetPlayerInputKey();
 
                 // If player hits the escape key
                 if (userInput == ConsoleKey.Escape)
                 {
-                    if (destinationSquare != null)
+                    if (pieceToMove != null && player is SheepPlayer)
                     {
-                        RefreshUI();
+                        pieceToMove = null;
 
-                        destinationSquare = null;
-                        
                         continue;
                     }
 
@@ -210,6 +209,9 @@ namespace WolfSheepGameLP1.UI
                             // ...update the player's round counter.
                             player.UpdateRoundCounter();
 
+                            // ...and refresh the UI.
+                            RefreshUI();
+
                             break;
                         }
                         // If it failed...
@@ -231,6 +233,8 @@ namespace WolfSheepGameLP1.UI
                     // ...if the theoretical square exists...
                     if (destinationSquare != null)
                     {
+                        RefreshUI();
+
                         // ...highlight it.
                         HighlightBoardSquare(destinationSquare);
                     }
@@ -238,7 +242,9 @@ namespace WolfSheepGameLP1.UI
             }
 
             if (!keepPlaying)
-                SetCursorPositionToEnd();
+            {
+                DisplayGameOverScreen();
+            }
 
             return keepPlaying;
         }
@@ -340,8 +346,6 @@ namespace WolfSheepGameLP1.UI
 
             currentPosX = Console.CursorLeft;
             currentPosY = Console.CursorTop;
-
-            RefreshUI();
 
             DisplayBoardSquare(square, true, highlightPiece);
 
@@ -460,6 +464,8 @@ namespace WolfSheepGameLP1.UI
             {
                 square = allowedSquares[currentSquareIndex];
 
+                RefreshUI();
+
                 HighlightBoardSquare(square);
 
                 userInput = GetPlayerInputKey();
@@ -535,6 +541,8 @@ namespace WolfSheepGameLP1.UI
             // Only leaves loop on player instruction
             while (true)
             {
+                RefreshUI();
+
                 piece = player.Pieces[currentPieceIndex];
 
                 HighlightBoardSquare(piece.BoardSquare);
