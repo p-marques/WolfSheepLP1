@@ -7,27 +7,35 @@ namespace WolfSheepGameLP1
 {
 	public class BoardSquare
 	{
-		private int i;
-		private int rowIndex;
 		public Coord Pos { get; private set; }
 
-		public Piece Piece { get; set; } = null;
+		public Piece Piece { get; private set; } = null;
 
-		public bool Playable { get; private set; }
+		public bool IsPlayable { get; private set; }
 
 		public BoardSquare(int columnIndex, int rowIndex)
 		{
 			Pos = new Coord(columnIndex, rowIndex);
 
-			Playable = rowIndex % 2 != 0 && columnIndex % 2 == 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0;
+			IsPlayable = rowIndex % 2 != 0 && columnIndex % 2 == 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0;
 		}
 
-		//places a piece
+		/// <summary>
+		/// Place a game piece in this square.
+		/// </summary>
+		/// <param name="piece">The game piece to place.</param>
 		public void PutPiece(Piece piece)
         {
+			// If this piece is already on the board...
+			if (piece.BoardSquare != null)
+			{
+				// ...remove it from it's current location.
+				piece.BoardSquare.Piece = null;
+			}
+
 			this.Piece = piece;
 
-			piece.BoardSquare = this;
+			piece.SetBoardSquareReference(this);
         }
 	}
 }
