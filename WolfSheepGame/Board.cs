@@ -9,13 +9,18 @@ namespace WolfSheepGameLP1
 		public uint Size { get; private set; }
 
 		public BoardRow[] Rows { get; private set; }
-
+		/// <summary>
+		/// creates a board with the array of rows
+		/// </summary>
 		public Board(uint size)
 		{
 			this.Size = size;
 			CreateRows();
 		}
 
+		/// <summary>
+		/// creates and array with sizes rows
+		/// </summary>
 		public void CreateRows()
 		{
 			this.Rows = new BoardRow[Size];

@@ -9,6 +9,7 @@ namespace WolfSheepGameLP1
     {
         public BoardSquare BoardSquare { get; private set; }
 
+        //letter for the piece
         public abstract char Unicode { get; }
 
         /// <summary>

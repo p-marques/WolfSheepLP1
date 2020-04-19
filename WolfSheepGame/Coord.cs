@@ -9,10 +9,13 @@ namespace WolfSheepGameLP1
         public int Column { get; }
         public int Row { get; }
 
+        /// <summary>
+        /// Creates and coordinate x-column and y-row.
+        /// </summary>
         public Coord(int column, int row)
         {
-            Column = column;
-            Row = row;
+            Column = column;//x
+            Row = row;//y
         }
 
         public override string ToString()
